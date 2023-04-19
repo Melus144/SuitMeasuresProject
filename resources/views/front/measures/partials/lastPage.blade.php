@@ -139,7 +139,7 @@
                            disabled
                            maxlength="20"
                            name="talla_mono" type="text"
-                           class="outline-none input-front-page my-2 w-full py-2 px-3 leading-tight border rounded b    g-gray-600 text-white">
+                           class="outline-none input-front-page my-2 w-full py-2 px-3 leading-tight border rounded bg-gray-600 text-white">
                     <label
                         class="text-white text-center lg:text-lg sm:text-sm">{{__("Ajuste del mono")}}</label>
                     <select x-model="ajuste_mono" name="ajuste_mono" disabled
