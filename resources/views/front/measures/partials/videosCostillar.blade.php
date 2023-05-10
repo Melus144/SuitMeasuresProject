@@ -66,7 +66,7 @@
                                class="text-2xl text-right w-36 h-14 py-2 px-1 text-black leading-tight outline-none">
                         <span
                             class="h-14 w-32 bg-white text-md flex items-center pt-1.5">cm</span>
-                        {{-- Si hi ha mes unitats de mesura en un futur, enviar-ho vía array controlador i llegir aqui valor unitat de mesura --}}
+                        {{-- Si hi ha mes unitats de mesura en un futur, enviar-ho vía array controlador i llegir aqui la unitat de mesura --}}
                     </div>
                 </div>
                 <div>
@@ -86,7 +86,7 @@
                     </a>
                 </div>
             </div>
-            {{-- TODO In a future: Normally between   <p class="text-xs text-white text-center">Normally between</p>   --}}
+                {{-- TODO In a future: Normally between   <p class="text-xs text-white text-center">Normally between</p>   --}}
         </div>
     </div>
 @endforeach

@@ -141,6 +141,11 @@
             </div>
         @endif
     @endforeach
-
+        <input readonly hidden name="talla_altura" x-model="talla_altura">
+        <input readonly hidden name="talla_peso" x-model="talla_peso">
+        <input readonly hidden name="talla_media" x-model="talla_media">
+        <input readonly hidden name="talla_pecho" x-model="talla_pecho">
+        <input readonly hidden name="talla_cintura" x-model="talla_cintura">
+        <input readonly hidden name="talla_cadera" x-model="talla_cadera">
 </div>
 {{-- FI INPUTS VIDEOS --}}

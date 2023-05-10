@@ -126,7 +126,7 @@ class MeasuresVideosController extends Controller
                 'video' => '19. Contorno Pierna Muslo Bajo',
                 'input' => 'leg_lower',
                 'title' => 'title_pierna_muslo_bajo',
-                'subtitle' => 'title_pierna_muslo_bajo',
+                'subtitle' => 'subtitle_pierna_muslo_bajo',
             ],
             19 => [
                 'video' => '20. Gemelo',
@@ -239,7 +239,7 @@ class MeasuresVideosController extends Controller
                 'video' => '19. Contorno Pierna Muslo Bajo',
                 'input' => 'leg_lower',
                 'title' => 'title_pierna_muslo_bajo',
-                'subtitle' => 'title_pierna_muslo_bajo',
+                'subtitle' => 'subtitle_pierna_muslo_bajo',
             ],
             18 => [
                 'video' => '20. Gemelo',
@@ -276,7 +276,6 @@ class MeasuresVideosController extends Controller
         $have_marina_suit = 'mono_marina_no';
         $marina_suit_size = '';
         $suit_fitting = '';
-
 
         return view('front.measures.measures-videos', compact('pasos_costillar', 'pasos_sin_costillar', 'dades', 'measure_code',
             'step', 'costillar', 'name', 'height', 'weight', 'age', 'email', 'gender', 'lopd', 'have_marina_suit', 'marina_suit_size', 'suit_fitting'));
@@ -551,10 +550,16 @@ class MeasuresVideosController extends Controller
         $height = $measure->height;
         $weight = $measure->weight;
         $age = $measure->age;
-        //$email = $measure->email;
         $gender = $measure->gender;
 
         $suit_fitting = $measure->suit_fitting;
+
+        $height_size = $measure->height_size;
+        $weight_size = $measure->weight_size;
+        $chest_size = $measure->chest_size;
+        $waist_size = $measure->waist_size;
+        $hip_size = $measure->hip_size;
+        $medium_size = $measure->medium_size;
 
         if ($measure->rib_protector == 1) {
             $costillar = 'con_costillar';
@@ -571,13 +576,14 @@ class MeasuresVideosController extends Controller
         }
 
         return view('front.measures.measures-videos-review', compact('pasos_costillar', 'pasos_sin_costillar', 'dades', 'measure_code',
-            'step', 'costillar', 'name', 'height', 'weight', 'age', 'gender', 'have_marina_suit', 'marina_suit_size', 'suit_fitting'));
+            'step', 'costillar', 'name', 'height', 'weight', 'age', 'gender', 'have_marina_suit', 'marina_suit_size', 'suit_fitting', 'height_size', 'weight_size', 'chest_size', 'waist_size', 'hip_size', 'medium_size'));
 
     }
 
     // Funció per validar i guardar una còpia de la informació enviada vía formulari a la base de dades.
     public function saveMeasures(Request $request)
     {
+        //dd($request);
         //Dades de la portada
         $validatedFrontPageData = $request->validate([
             'nombre' => 'required|string|max:45',
@@ -729,6 +735,15 @@ class MeasuresVideosController extends Controller
             $measures->chest = $validatedMeasuresData['chest'];
         }
 
+        $measures->height_size = $request->input('talla_altura');
+        $measures->weight_size = $request->input('talla_peso');
+        $measures->chest_size = $request->input('talla_pecho');
+        $measures->waist_size = $request->input('talla_cintura');
+        $measures->hip_size = $request->input('talla_cadera');
+
+        $measures->medium_size = $this->calculateMediumSize($measures->height_size, $measures->weight_size, $measures->chest_size, $measures->waist_size, $measures->hip_size);
+        $measures->final_size = $this->calculateFinalSize($measures->height_size, $measures->weight_size, $measures->waist_size ,$measures->medium_size);
+
         $measures->measure_code = $measures->generateMeasureCode();
         $measures->save();
 
@@ -750,13 +765,11 @@ class MeasuresVideosController extends Controller
             $valors = $request->input('sin_costillar');
         }
         //Talla mono es l'únic input opcional, per tant, si no s'ha introduït, li assignem un string buit
-
         if (isset($request->query()['talla_mono'])) {
             $valors['talla_mono'] = $request->query()['talla_mono'];
         } else {
             $valors['talla_mono'] = '';
         }
-
 
         //Com a la vista deixem introduir comes i punts (per facilitat usuari), aquí hem de convertir al mateix format
         //Reemplacem la coma per un punt per convertir tots els valors a valors decimals/numerics en un nou array:
@@ -834,10 +847,9 @@ class MeasuresVideosController extends Controller
                 app()->getLocale(),
                 $request->query()['measure_code'],
                 $request->query()['nombre'],
-                $request->query()['altura'],
-                $request->query()['peso'],
+                str_replace('.00', '', $request->query()['altura']),
+                str_replace('.00', '', $request->query()['peso']),
                 $request->query()['edad'],
-                //$request->query()['email'],
                 $request->query()['genero'],
                 $request->query()['mono_marina'],
                 $validatedMeasuresData['talla_mono'],
@@ -869,10 +881,9 @@ class MeasuresVideosController extends Controller
                 app()->getLocale(),
                 $request->query()['measure_code'],
                 $request->query()['nombre'],
-                $request->query()['altura'],
-                $request->query()['peso'],
+                str_replace('.00', '', $request->query()['altura']),
+                str_replace('.00', '', $request->query()['peso']),
                 $request->query()['edad'],
-                //$request->query()['email'],
                 $request->query()['genero'],
                 $request->query()['mono_marina'],
                 $validatedMeasuresData['talla_mono'],
@@ -901,6 +912,18 @@ class MeasuresVideosController extends Controller
             );
         }
 
+        $main_sizes = [
+            'height_size' => $request->input('talla_altura'),
+            'weight_size' => $request->input('talla_peso'),
+            'medium_size' => $request->input('talla_media'),
+            'chest_size' => $request->input('talla_pecho'),
+            'waist_size' => $request->input('talla_cintura'),
+            'hip_size' => $request->input('talla_cadera'),
+        ];
+
+        //Important actualitzar les dades abans de descarregar el PDF (output), si es canvia l'ordre falla perquè interpreta un return i no crida a la funció
+        $this->updateMesures($validatedMeasuresData, $request->query()['measure_code'], $main_sizes);
+
         //Descarrega del pdf editat
         if (app()->getLocale() == 'es') {
             $pdf->Output('Medidas ' . $request->query()['nombre'] . '.pdf', "D");
@@ -908,12 +931,11 @@ class MeasuresVideosController extends Controller
             $pdf->Output('Measures ' . $request->query()['nombre'] . '.pdf', "D");
         }
 
-        $this->updateMesures($validatedMeasuresData, $request->query()['measure_code']);
     }
 
     // Funció per actualitzar la informació d'unes mesures existents a la base de dades.
     // Aquesta funció es crida des de la funció downloadPdf, des de on validem les dades introduïdes per l'usuari (no fa falta validar-les de nou, utilitzem les dades ja validades)
-    public function updateMesures(array $validatedMeasures, string $measure_code)
+    public function updateMesures(array $validatedMeasures, string $measure_code, array $main_sizes)
     {
         //Inserir informació a la base de dades mitjançant el model Measures
         $measures = Measures::where('measure_code', $measure_code)->first();
@@ -953,70 +975,44 @@ class MeasuresVideosController extends Controller
             $measures->chest = $validatedMeasures['chest'];
         }
 
+        $measures->height_size = $main_sizes['height_size'];
+        $measures->weight_size = $main_sizes['weight_size'];
+        $measures->medium_size = $this->calculateMediumSize($main_sizes['height_size'], $main_sizes['weight_size'], $main_sizes['chest_size'], $main_sizes['waist_size'], $main_sizes['hip_size']);
+        $measures->final_size = $this->calculateFinalSize($main_sizes['height_size'], $main_sizes['weight_size'], $main_sizes['waist_size'], $measures->medium_size);
+        $measures->chest_size = $main_sizes['chest_size'];
+        $measures->waist_size = $main_sizes['waist_size'];
+        $measures->hip_size = $main_sizes['hip_size'];
+
         $measures->update();
     }
 
-
-    // Funció per xifrar les dades
-    function encryptData($data, $key, $iv)
+    private function calculateMediumSize($height_size, $weight_size, $chest_size, $waist_size, $hip_size)
     {
-        $cipher = "AES-256-CBC";
-        $encrypted = openssl_encrypt($data, $cipher, $key, 0, $iv);
-        return base64_encode($encrypted);
+        $values = [$height_size, $weight_size, $chest_size, $waist_size, $hip_size];
+        sort($values);
+        $count = count($values);
+        $mid = (int)floor(($count - 1) / 2);
+        if ($count % 2 == 0) {
+            return ($values[$mid] + $values[$mid + 1]) / 2;
+        } else {
+            return $values[$mid];
+        }
     }
 
-    // Función per desxifrar les dades
-    function decryptData($encryptedData, $key, $iv)
+    private function calculateFinalSize($height_size, $weight_size, $waist_size, $medium_size) : string
     {
-        $cipher = "AES-256-CBC";
-        $decrypted = openssl_decrypt(base64_decode($encryptedData), $cipher, $key, 0, $iv);
-        return $decrypted;
+        $final_size = $medium_size;
+        if ($height_size > $medium_size) {
+            $final_size .= 'L';
+        }
+        if ($weight_size < $waist_size) {
+            $final_size .= 'EX';
+        }
+        if ($waist_size < $weight_size) {
+            $final_size .= 'S';
+        }
+        return $final_size;
     }
-
-    //TODO: COpiar aquestes dues funcions al fitxer MeasureController quan es faci merge
-    //TODO: Copiar el fragment d'abaix a la funcio saveMeasures, updateMesures (aplicar xifrat bd) + proves strings xifrats. Pendent a les vistes aplicar el desxifrat
-    /*
-     *  //Talla mono es l'únic input opcional, per tant, si no s'ha introduït, li assignem un string buit
-    if ($request->input('talla_mono') != null) {
-        $valors['talla_mono'] = $request->input('talla_mono');
-    } else {
-        $valors['talla_mono'] = '';
-    }
-
-    // Generar una clau y un vector de inicialización aleatorios
-    $key = openssl_random_pseudo_bytes(32);
-    $iv = openssl_random_pseudo_bytes(16);
-
-    // Cifrar los datos
-    $nameEncrypted = encryptData($request->input('nombre'), $key, $iv);
-    $emailEncrypted = encryptData($request->input('email'), $key, $iv);
-    $heightEncrypted = encryptData(str_replace(',', '.', $request->input('altura')), $key, $iv);
-    $weightEncrypted = encryptData(str_replace(',', '.', $request->input('peso')), $key, $iv);
-    $ageEncrypted = encryptData($request->input('edad'), $key, $iv);
-    $genderEncrypted = encryptData($request->input('genero'), $key, $iv);
-
-    //Inserir informació a la base de dades mitjançant el model Measures si l'usuari vol compartir les seves dades.
-    $measures = new Measures();
-    if (auth('customer')->check()) {
-        $customer = auth('customer')->user();
-        $measures->customer_id = $customer->id;
-    } else {
-        $measures->customer_id = null;
-    }
-    $measures->language = app()->getLocale();
-    $measures->name_encrypted = $nameEncrypted;
-    $measures->email_encrypted = $emailEncrypted;
-    $measures->height_encrypted = $heightEncrypted;
-    $measures->weight_encrypted = $weightEncrypted;
-    $measures->age_encrypted = $ageEncrypted;
-    $measures->gender_encrypted = $genderEncrypted;
-    if ($request->input('mono_marina') == 'mono_marina_si')
-        $measures->have_marina_suit = true;
-    else
-        $measures->have_marina_suit = false
-
-     *
-     */
 
 
 }

@@ -105,15 +105,12 @@ class MeasuresVideosToPdfAction
 
             //Impressió de les dades de la portada a la Capçalera del PDF
             $pdf->WriteText('23', '27.7', ($nombre));
-            $pdf->WriteHTML('<a target="_blank" href="https://marinaracewear.com/'.$locale.'/my-measures/'.$measure_code.'" style="margin-left:280px;margin-top:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$measure_code.'</a>');
+            $pdf->WriteHTML('<div style="margin-left: 130px; margin-top: 25px; font-size:16px; font-weight: bold; font-family: Montserrat"><a target="_blank" href="https://marinaracewear.com/'.$locale.'/my-measures/'.$measure_code.'" style="margin-left:280px;margin-top:20px;">'.$measure_code.'</a></div>');
             $pdf->SetFont('montserrat', '', 10);
             $pdf->WriteText('22', '36', $altura);
             $pdf->WriteText('52', '36', $peso);
             $pdf->WriteText('22', '43', $edad);
             $pdf->SetFont('montserrat', 'R', 7);
-            //$pdf->WriteText('34', '43', "E-mail:");
-            //$pdf->WriteText('43', '43', $email);
-
             $pdf->SetFont('montserrat', '', 11);
             if ($mono_marina == "mono_marina_si") {
                 $pdf->WriteText('137.7', '27.3', "x");
@@ -144,17 +141,17 @@ class MeasuresVideosToPdfAction
             //Impressió dades primera fila de mesures
             $pdf->SetFont('montserrat', '', 10);
             $pdf->WriteText('63', '102', $hombros);
-            $pdf->WriteText('111.5', '102', $brazos);
-            $pdf->WriteText('161', '102', $interior_manga);
+            $pdf->WriteText('110.5', '102', $brazos);
+            $pdf->WriteText('160', '102', $interior_manga);
             //Fi impressió dades primera fila de mesures
 
             //Impressió dades segona fila de mesures
             $pdf->WriteText('12.5', '129.5', $cuello);
             $pdf->WriteText('12.5', '144.3', $biceps);
             $pdf->WriteText('12.5', '159.2', $antebrazo);
-            $pdf->WriteText('62.5', '130.5', $pecho_costillar);
-            $pdf->WriteText('62.5', '130.5', $pecho_sin_costillar);
-            $pdf->WriteText('62.5', '159.2', $costillas_costillar);
+            $pdf->WriteText('62', '130.5', $pecho_costillar);
+            $pdf->WriteText('62', '130.5', $pecho_sin_costillar);
+            $pdf->WriteText('62', '159.2', $costillas_costillar);
             $pdf->WriteText('111.5', '159.2', $cintura);
             $pdf->WriteText('160', '159', $cadera);
             //Fi impressió dades segona fila de mesures
@@ -165,9 +162,9 @@ class MeasuresVideosToPdfAction
             $pdf->WriteText('148', '216.5', $torso);
             //Fi impressió dades tercera fila de mesures
 
-            //Impressió dades quarta fila de mesures - En espera nous PDFs millor posicionaent (canviarà y pero no x)
-            $pdf->WriteText('15.5', '273', $largo_entero);
-            $pdf->WriteText('62.8', '273', $pierna);
+            //Impressió dades quarta fila de mesures
+            $pdf->WriteText('14.5', '273', $largo_entero);
+            $pdf->WriteText('61.8', '273', $pierna);
             $pdf->WriteText('110.2', '273', $interior_pierna);
             $pdf->WriteText('161', '251.2', $contorno_muslo_arriba);
             $pdf->WriteText('161', '257.8', $contorno_muslo_bajo);
