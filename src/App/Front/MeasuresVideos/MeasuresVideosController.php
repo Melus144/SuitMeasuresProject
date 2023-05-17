@@ -755,7 +755,7 @@ class MeasuresVideosController extends Controller
     // L'objectiu d'aquesta funció és enviar les dades que ha introduït l'usuari en el formulari a l'acció MeasuresVideosToPdfAction per a que es generi el pdf amb les dades impreses
     // També cridem a la funció updateMesures per actualizar les dades que s'hagin modificat
     //Fem una validació de les dades introduïdes per l'usuari i si no són vàlides, tornem a la pàgina anterior amb els errors
-    //Aquesta validació serveix tant per al procés measuresVideosToPdfAction com per al updateMesures
+    //Aquesta validació serveix tant pel procés measuresVideosToPdfAction com pel updateMesures.
     public function downloadPdf(Request $request, MeasuresVideosToPdfAction $measuresVideosToPdfAction)
     {
 
@@ -934,7 +934,7 @@ class MeasuresVideosController extends Controller
     }
 
     // Funció per actualitzar la informació d'unes mesures existents a la base de dades.
-    // Aquesta funció es crida des de la funció downloadPdf, des de on validem les dades introduïdes per l'usuari (no fa falta validar-les de nou, utilitzem les dades ja validades)
+    // Aquesta funció es crida des de la funció downloadPdf, des d'on validem les dades introduïdes per l'usuari (no fa falta validar-les de nou, utilitzem les dades ja validades)
     public function updateMesures(array $validatedMeasures, string $measure_code, array $main_sizes)
     {
         //Inserir informació a la base de dades mitjançant el model Measures

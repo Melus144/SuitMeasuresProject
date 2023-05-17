@@ -40,7 +40,7 @@
                       cintura: {min: 72, max: 76},
                       cadera: {min: 84, max: 88}
                     },
-                   46: {
+                    46: {
                       peso: {min: 55, max: 60},
                       altura: {min: 167, max: 170},
                       pecho: {min: 88, max: 92},

@@ -98,7 +98,7 @@
                value="{{old('suit_fitting', str_replace("_"," ", $measures->suit_fitting))}}">
     </div>
 </div>
-    <hr>
+<hr>
 <h4>Automatic Measures</h4>
 <div class="row">
     <div class="container">
@@ -108,7 +108,6 @@
                 <th>MAIN MEASURES</th>
                 <th>CUSTOMER SIZES</th>
                 <th>SIZE FOUND</th>
-                <th>DIFFERENCES</th>
                 <th>DIFFERENCE REGARDING THE MEDIUM SIZE</th>
                 <th></th>
             </tr>
@@ -118,7 +117,6 @@
                 <td>HEIGHT</td>
                 <td>{{$measures->height}} cm</td>
                 <td>{{$measures->height_size}}</td>
-                <td></td>
                 <td>{{$measures->medium_size - $measures->height_size}}</td>
                 <td>{{$measures->height + ($measures->medium_size - $measures->height_size)}} cm</td>
             </tr>
@@ -126,7 +124,6 @@
                 <td>WEIGHT</td>
                 <td>{{$measures->weight}} cm</td>
                 <td>{{$measures->weight_size}}</td>
-                <td></td>
                 <td>{{$measures->medium_size - $measures->weight_size}}</td>
                 <td>{{$measures->weight + ($measures->medium_size - $measures->weight_size)}} cm</td>
             </tr>
@@ -135,13 +132,11 @@
                 @if($measures->rib_protector == '0')
                     <td>{{$measures->chest}} cm</td>
                     <td>{{$measures->chest_size}}</td>
-                    <td></td>
                     <td>{{$measures->medium_size - $measures->chest_size}}</td>
                     <td>{{$measures->chest + ($measures->medium_size - $measures->chest_size)}} cm</td>
                 @else
                     <td>{{$measures->rib_chest}} cm</td>
                     <td>{{$measures->chest_size}}</td>
-                    <td></td>
                     <td>{{$measures->medium_size - $measures->chest_size}}</td>
                     <td>{{$measures->rib_chest + ($measures->medium_size - $measures->chest_size)}} cm</td>
 
@@ -151,7 +146,6 @@
                 <td>WAIST</td>
                 <td>{{$measures->waist}} cm</td>
                 <td>{{$measures->waist_size}}</td>
-                <td></td>
                 <td>{{$measures->medium_size - $measures->waist_size}}</td>
                 <td>{{$measures->waist + ($measures->medium_size - $measures->waist_size)}} cm</td>
             </tr>
@@ -159,7 +153,6 @@
                 <td>HIP</td>
                 <td>{{$measures->hip}} cm</td>
                 <td>{{$measures->hip_size}}</td>
-                <td></td>
                 <td>{{$measures->medium_size - $measures->hip_size}}</td>
                 <td>{{$measures->hip + ($measures->medium_size - $measures->hip_size)}} cm</td>
 
@@ -198,248 +191,246 @@
 
     <hr>
     <h4>All measures</h4>
-        <div class="row">
-            <div class="col-md-2 mb-3">
-                <label for="{{$measures->shoulder}}" class="form-label">Shoulder</label>
-                <input type="text" class="form-control" id="{{$measures->shoulder}}" disabled
-                    value="{{$measures->shoulder}} cm">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="shoulder_wrong"
-                           id="shoulder_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['shoulder'] == 1) checked @endif>
-                    <label class="form-check-label" for="shoulder_wrong">
-                        {{__("Wrong measurement")}}
-                    </label>
-                </div>
+    <div class="row">
+        <div class="col-md-2 mb-3">
+            <label for="{{$measures->shoulder}}" class="form-label">Shoulder</label>
+            <input type="text" class="form-control" id="{{$measures->shoulder}}" disabled
+                   value="{{$measures->shoulder}} cm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="shoulder_wrong"
+                       id="shoulder_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['shoulder'] == 1) checked @endif>
+                <label class="form-check-label" for="shoulder_wrong">
+                    {{__("Wrong measurement")}}
+                </label>
             </div>
-            <div class="col-md-2 mb-3">
-                <label for="sleeve_length" class="form-label">Sleeve Length</label>
-                <input type="text" class="form-control" id="sleeve_length" disabled
-                       value="{{$measures->sleeve_length}} cm">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="sleeve_length_wrong"
-                           id="sleeve_length_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['sleeve_length'] == 1) checked @endif>
-                    <label class="form-check-label" for="sleeve_length_wrong">
-                        {{__("Wrong measurement")}}
-                    </label>
-                </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="sleeve_length" class="form-label">Sleeve Length</label>
+            <input type="text" class="form-control" id="sleeve_length" disabled
+                   value="{{$measures->sleeve_length}} cm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sleeve_length_wrong"
+                       id="sleeve_length_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['sleeve_length'] == 1) checked @endif>
+                <label class="form-check-label" for="sleeve_length_wrong">
+                    {{__("Wrong measurement")}}
+                </label>
             </div>
-            <div class="col-md-2 mb-3">
-                <label for="sleeve_interior" class="form-label">Sleeve Interior</label>
-                <input type="text" class="form-control" id="sleeve_interior" disabled
-                       value="{{$measures->sleeve_interior}} cm">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="sleeve_interior_wrong"
-                           id="sleeve_interior_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['sleeve_interior'] == 1) checked @endif>
-                    <label class="form-check-label" for="sleeve_interior_wrong">
-                        {{__("Wrong measurement")}}
-                    </label>
-                </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="sleeve_interior" class="form-label">Sleeve Interior</label>
+            <input type="text" class="form-control" id="sleeve_interior" disabled
+                   value="{{$measures->sleeve_interior}} cm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="sleeve_interior_wrong"
+                       id="sleeve_interior_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['sleeve_interior'] == 1) checked @endif>
+                <label class="form-check-label" for="sleeve_interior_wrong">
+                    {{__("Wrong measurement")}}
+                </label>
             </div>
-            <div class="col-md-2 mb-3">
-                <label for="neck" class="form-label">Neck</label>
-                <input type="text" class="form-control" id="neck" disabled
-                       value="{{$measures->neck}} cm">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="neck_wrong"
-                           id="neck_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['neck'] == 1) checked @endif>
-                    <label class="form-check-label" for="neck_wrong">
-                        {{__("Wrong measurement")}}
-                    </label>
-                </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="neck" class="form-label">Neck</label>
+            <input type="text" class="form-control" id="neck" disabled
+                   value="{{$measures->neck}} cm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="neck_wrong"
+                       id="neck_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['neck'] == 1) checked @endif>
+                <label class="form-check-label" for="neck_wrong">
+                    {{__("Wrong measurement")}}
+                </label>
             </div>
-            <div class="col-md-2 mb-3">
-                <label for="biceps" class="form-label">Biceps</label>
-                <input type="text" class="form-control" id="biceps" disabled
-                       value="{{$measures->biceps}} cm">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="biceps_wrong"
-                           id="biceps_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['biceps'] == 1) checked @endif>
-                    <label class="form-check-label" for="biceps_wrong">
-                        {{__("Wrong measurement")}}
-                    </label>
-                </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="biceps" class="form-label">Biceps</label>
+            <input type="text" class="form-control" id="biceps" disabled
+                   value="{{$measures->biceps}} cm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="biceps_wrong"
+                       id="biceps_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['biceps'] == 1) checked @endif>
+                <label class="form-check-label" for="biceps_wrong">
+                    {{__("Wrong measurement")}}
+                </label>
             </div>
-            <div class="col-md-2 mb-3">
-                <label for="forearm" class="form-label">Forearm</label>
-                <input type="text" class="form-control" id="forearm" disabled
-                       value="{{$measures->forearm}} cm">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="forearm_wrong"
-                           id="forearm_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['forearm'] == 1) checked @endif>
-                    <label class="form-check-label" for="forearm_wrong">
-                        {{__("Wrong measurement")}}
-                    </label>
-                </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="forearm" class="form-label">Forearm</label>
+            <input type="text" class="form-control" id="forearm" disabled
+                   value="{{$measures->forearm}} cm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="forearm_wrong"
+                       id="forearm_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['forearm'] == 1) checked @endif>
+                <label class="form-check-label" for="forearm_wrong">
+                    {{__("Wrong measurement")}}
+                </label>
             </div>
-            <div class="col-md-2 mb-3">
-                <label for="waist" class="form-label">Waist</label>
-                <input type="text" class="form-control" id="waist" disabled
-                       value="{{$measures->waist}} cm">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="waist_wrong"
-                           id="waist_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['waist'] == 1) checked @endif>
-                    <label class="form-check-label" for="waist_wrong">
-                        {{__("Wrong measurement")}}
-                    </label>
-                </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="waist" class="form-label">Waist</label>
+            <input type="text" class="form-control" id="waist" disabled
+                   value="{{$measures->waist}} cm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="waist_wrong"
+                       id="waist_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['waist'] == 1) checked @endif>
+                <label class="form-check-label" for="waist_wrong">
+                    {{__("Wrong measurement")}}
+                </label>
             </div>
-            <div class="col-md-2 mb-3">
-                <label for="hip" class="form-label">Hip</label>
-                <input type="text" class="form-control" id="hip" disabled
-                       value="{{$measures->hip}} cm">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="hip_wrong"
-                           id="hip_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['hip'] == 1) checked @endif>
-                    <label class="form-check-label" for="hip_wrong">
-                        {{__("Wrong measurement")}}
-                    </label>
-                </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="hip" class="form-label">Hip</label>
+            <input type="text" class="form-control" id="hip" disabled
+                   value="{{$measures->hip}} cm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="hip_wrong"
+                       id="hip_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['hip'] == 1) checked @endif>
+                <label class="form-check-label" for="hip_wrong">
+                    {{__("Wrong measurement")}}
+                </label>
             </div>
-            <div class="col-md-2 mb-3">
-                <label for="torso_length" class="form-label">Torso Length</label>
-                <input type="text" class="form-control" id="torso_length" disabled
-                       value="{{$measures->torso_length}} cm">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="torso_length_wrong"
-                           id="torso_length_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['torso_length'] == 1) checked @endif>
-                    <label class="form-check-label" for="torso_length_wrong">
-                        {{__("Wrong measurement")}}
-                    </label>
-                </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="torso_length" class="form-label">Torso Length</label>
+            <input type="text" class="form-control" id="torso_length" disabled
+                   value="{{$measures->torso_length}} cm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="torso_length_wrong"
+                       id="torso_length_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['torso_length'] == 1) checked @endif>
+                <label class="form-check-label" for="torso_length_wrong">
+                    {{__("Wrong measurement")}}
+                </label>
             </div>
-            <div class="col-md-2 mb-3">
-                <label for="back_shot" class="form-label">Back Shot</label>
-                <input type="text" class="form-control" id="back_shot" disabled
-                       value="{{$measures->back_shot}} cm">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="back_shot_wrong"
-                           id="back_shot_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['back_shot'] == 1) checked @endif>
-                    <label class="form-check-label" for="back_shot_wrong">
-                        {{__("Wrong measurement")}}
-                    </label>
-                </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="back_shot" class="form-label">Back Shot</label>
+            <input type="text" class="form-control" id="back_shot" disabled
+                   value="{{$measures->back_shot}} cm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="back_shot_wrong"
+                       id="back_shot_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['back_shot'] == 1) checked @endif>
+                <label class="form-check-label" for="back_shot_wrong">
+                    {{__("Wrong measurement")}}
+                </label>
             </div>
-            <div class="col-md-2 mb-3">
-                <label for="torso" class="form-label">Torso</label>
-                <input type="text" class="form-control" id="torso" disabled
-                       value="{{$measures->torso}} cm">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="torso_wrong"
-                           id="torso_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['torso'] == 1) checked @endif>
-                    <label class="form-check-label" for="torso_wrong">
-                        {{__("Wrong measurement")}}
-                    </label>
-                </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="torso" class="form-label">Torso</label>
+            <input type="text" class="form-control" id="torso" disabled
+                   value="{{$measures->torso}} cm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="torso_wrong"
+                       id="torso_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['torso'] == 1) checked @endif>
+                <label class="form-check-label" for="torso_wrong">
+                    {{__("Wrong measurement")}}
+                </label>
             </div>
-            <div class="col-md-2 mb-3">
-                <label for="total_length" class="form-label">Total Length</label>
-                <input type="text" class="form-control" id="total_length" disabled
-                       value="{{$measures->total_length}} cm">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="total_length_wrong"
-                           id="total_length_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['total_length'] == 1) checked @endif>
-                    <label class="form-check-label" for="total_length_wrong">
-                        {{__("Wrong measurement")}}
-                    </label>
-                </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="total_length" class="form-label">Total Length</label>
+            <input type="text" class="form-control" id="total_length" disabled
+                   value="{{$measures->total_length}} cm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="total_length_wrong"
+                       id="total_length_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['total_length'] == 1) checked @endif>
+                <label class="form-check-label" for="total_length_wrong">
+                    {{__("Wrong measurement")}}
+                </label>
             </div>
-            <div class="col-md-2 mb-3">
-                <label for="leg" class="form-label">Leg</label>
-                <input type="text" class="form-control" id="leg" disabled
-                       value="{{$measures->leg}} cm">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="leg_wrong"
-                           id="leg_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['leg'] == 1) checked @endif>
-                    <label class="form-check-label" for="leg_wrong">
-                        {{__("Wrong measurement")}}
-                    </label>
-                </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="leg" class="form-label">Leg</label>
+            <input type="text" class="form-control" id="leg" disabled
+                   value="{{$measures->leg}} cm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="leg_wrong"
+                       id="leg_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['leg'] == 1) checked @endif>
+                <label class="form-check-label" for="leg_wrong">
+                    {{__("Wrong measurement")}}
+                </label>
             </div>
+        </div>
 
-            <div class="col-md-2 mb-3">
-                <label for="interior_leg" class="form-label">Interior Leg</label>
-                <input type="text" class="form-control" id="interior_leg" disabled
-                       value="{{$measures->interior_leg}} cm">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="interior_leg_wrong"
-                           id="interior_leg_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['interior_leg'] == 1) checked @endif>
-                    <label class="form-check-label" for="interior_leg_wrong">
-                        {{__("Wrong measurement")}}
-                    </label>
-                </div>
+        <div class="col-md-2 mb-3">
+            <label for="interior_leg" class="form-label">Interior Leg</label>
+            <input type="text" class="form-control" id="interior_leg" disabled
+                   value="{{$measures->interior_leg}} cm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="interior_leg_wrong"
+                       id="interior_leg_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['interior_leg'] == 1) checked @endif>
+                <label class="form-check-label" for="interior_leg_wrong">
+                    {{__("Wrong measurement")}}
+                </label>
             </div>
-            <div class="col-md-2 mb-3">
-                <label for="leg_upper" class="form-label">Leg Upper</label>
-                <input type="text" class="form-control" id="leg_upper" disabled
-                       value="{{$measures->leg_upper}} cm">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="leg_upper_wrong"
-                           id="leg_upper_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['leg_upper'] == 1) checked @endif>
-                    <label class="form-check-label" for="leg_upper_wrong">
-                        {{__("Wrong measurement")}}
-                    </label>
-                </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="leg_upper" class="form-label">Leg Upper</label>
+            <input type="text" class="form-control" id="leg_upper" disabled
+                   value="{{$measures->leg_upper}} cm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="leg_upper_wrong"
+                       id="leg_upper_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['leg_upper'] == 1) checked @endif>
+                <label class="form-check-label" for="leg_upper_wrong">
+                    {{__("Wrong measurement")}}
+                </label>
             </div>
-            <div class="col-md-2 mb-3">
-                <label for="leg_lower" class="form-label">Leg Lower</label>
-                <input type="text" class="form-control" id="leg_lower" disabled
-                       value="{{$measures->leg_lower}} cm">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="leg_lower_wrong"
-                           id="leg_lower_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['leg_lower'] == 1) checked @endif>
-                    <label class="form-check-label" for="leg_lower_wrong">
-                        {{__("Wrong measurement")}}
-                    </label>
-                </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="leg_lower" class="form-label">Leg Lower</label>
+            <input type="text" class="form-control" id="leg_lower" disabled
+                   value="{{$measures->leg_lower}} cm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="leg_lower_wrong"
+                       id="leg_lower_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['leg_lower'] == 1) checked @endif>
+                <label class="form-check-label" for="leg_lower_wrong">
+                    {{__("Wrong measurement")}}
+                </label>
             </div>
-            <div class="col-md-2 mb-3">
-                <label for="calf" class="form-label">Calf</label>
-                <input type="text" class="form-control" id="calf" disabled
-                       value="{{$measures->calf}} cm">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="calf_wrong"
-                           id="calf_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['calf'] == 1) checked @endif>
-                    <label class="form-check-label" for="calf_wrong">
-                        {{__("Wrong measurement")}}
-                    </label>
-                </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="calf" class="form-label">Calf</label>
+            <input type="text" class="form-control" id="calf" disabled
+                   value="{{$measures->calf}} cm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="calf_wrong"
+                       id="calf_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['calf'] == 1) checked @endif>
+                <label class="form-check-label" for="calf_wrong">
+                    {{__("Wrong measurement")}}
+                </label>
             </div>
-            <div class="col-md-2 mb-3">
-                <label for="rib_chest" class="form-label">Rib Chest</label>
-                <input type="text" class="form-control" id="rib_chest" disabled
-                       value="{{$measures->rib_chest}} cm">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="rib_chest_wrong"
-                           id="rib_chest_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['rib_chest'] == 1) checked @endif>
-                    <label class="form-check-label" for="rib_chest_wrong">
-                        {{__("Wrong measurement")}}
-                    </label>
-                </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="rib_chest" class="form-label">Rib Chest</label>
+            <input type="text" class="form-control" id="rib_chest" disabled
+                   value="{{$measures->rib_chest}} cm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="rib_chest_wrong"
+                       id="rib_chest_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['rib_chest'] == 1) checked @endif>
+                <label class="form-check-label" for="rib_chest_wrong">
+                    {{__("Wrong measurement")}}
+                </label>
             </div>
-            <div class="col-md-2 mb-3">
-                <label for="rib_rack" class="form-label">Rib Rack</label>
-                <input type="text" class="form-control" id="rib_rack" disabled
-                       value="{{$measures->rib_rack}} cm">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="rib_rack_wrong"
-                           id="rib_rack_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['rib_rack'] == 1) checked @endif>
-                    <label class="form-check-label" for="rib_rack_wrong">
-                        {{__("Wrong measurement")}}
-                    </label>
-                </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="rib_rack" class="form-label">Rib Rack</label>
+            <input type="text" class="form-control" id="rib_rack" disabled
+                   value="{{$measures->rib_rack}} cm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="rib_rack_wrong"
+                       id="rib_rack_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['rib_rack'] == 1) checked @endif>
+                <label class="form-check-label" for="rib_rack_wrong">
+                    {{__("Wrong measurement")}}
+                </label>
             </div>
-            <div class="col-md-2 mb-3">
-                <label for="chest" class="form-label">Chest</label>
-                <input type="text" class="form-control" id="chest" disabled
-                       value="{{$measures->chest}} cm">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="chest_wrong"
-                           id="chest_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['chest'] == 1) checked @endif>
-                    <label class="form-check-label" for="chest_wrong">
-                        {{__("Wrong measurement")}}
-                    </label>
-                </div>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label for="chest" class="form-label">Chest</label>
+            <input type="text" class="form-control" id="chest" disabled
+                   value="{{$measures->chest}} cm">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="chest_wrong"
+                       id="chest_wrong" value="1" @if(isset($measures->wrong_measurements) && json_decode($measures->wrong_measurements, true)['chest'] == 1) checked @endif>
+                <label class="form-check-label" for="chest_wrong">
+                    {{__("Wrong measurement")}}
+                </label>
             </div>
-</div>
-
-
+        </div>
+    </div>
